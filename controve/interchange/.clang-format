@@ -1,0 +1,5 @@
+BasedOnStyle:       Webkit
+
+Language:           Cpp
+BreakBeforeBraces:  Stroustrup
+Standard:           Cpp11
