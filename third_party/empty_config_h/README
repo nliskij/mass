@@ -1,0 +1,2 @@
+Some projects in third party insist on including a config.h file even if we've
+specified everything through defines.
