@@ -24,7 +24,7 @@ default_toolchain {
 
 toolchain {
   abi_version: "armeabi-v7a"
-  abi_libc_version: "armeavi-v7a"
+  abi_libc_version: "armeabi-v7a"
   builtin_sysroot: ""
   compiler: "compiler"
   host_system_name: "armeabi-v7a"
@@ -32,6 +32,7 @@ toolchain {
   supports_gold_linker: false
   supports_incremental_linker: false
   supports_normalizing_ar: false
+  supports_fission: false
   supports_interface_shared_objects: false
   supports_start_end_lib: false
   supports_thin_archives: false
@@ -430,7 +431,7 @@ toolchain {
   compiler_flag: "-fstack-protector"
   compiler_flag: "-fPIE"
   linker_flag: "-pie"
-  linker_flag: "-Wl,-z,relro,,-z,now"
+  linker_flag: "-Wl,-z,relro,-z,now"
 
   linker_flag: "-lm"
 
@@ -472,12 +473,12 @@ toolchain {
 
     compiler_flag: "-ffunction-sections"
     compiler_flag: "-fdata-sections"
-    linker_flag: "-W;,--gc-sections"
+    linker_flag: "-Wl,--gc-sections"
   }
 }
 
 toolchain {
-  abi_version: "clang-3.6"
+  abi_version: "clang_3.6"
   abi_libc_version: "glibc_2.19"
   builtin_sysroot: ""
   compiler: "clang"

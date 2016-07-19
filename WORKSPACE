@@ -4,6 +4,19 @@ new_local_repository(
     build_file = 'external_builds/usr.BUILD',
 )
 
+new_http_archive(
+    name = 'allwpilib_ni_libraries_repo',
+    build_file = 'external_builds/ni-libraries.BUILD',
+    sha256 = 'c639f39bdf97f12b2d13b6194cf3efa4dde8ef0e4c127672d8c2634963dcf860', 
+    url = 'https://valkyrierobotics.com/builddeps/all_ni-libraries_083362b.tar.gz',
+    strip_prefix = 'ni-libraries',
+)
+
+bind(
+    name = 'ni-libraries',
+    actual = '@allwpilib_ni_libraries_repo//:ni-libraries',
+)
+
 new_git_repository(
     name = 'slycot_repo',
     remote = 'https://github.com/avventi/Slycot.git',
@@ -46,6 +59,11 @@ new_git_repository(
     remote = 'https://github.com/google/googletest',
     build_file = 'external_builds/googletest.BUILD',
     commit = 'ec44c6c1675c25b9827aacd08c02433cccde7780',
+)
+
+bind(
+    name = 'googletest',
+    actual = '@googletest_repo//:googletest',
 )
 
 new_http_archive(

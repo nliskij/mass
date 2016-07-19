@@ -327,7 +327,7 @@ void* allocatePWM(int32_t *status) {
  * @param pwmGenerator The pwmGen to free that was allocated with AllocateDO_PWM()
  */
 void freePWM(void* pwmGenerator, int32_t *status) {
-  uint32_t id = (uint32_t) pwmGenerator;
+  uintmax_t id = (uintmax_t) pwmGenerator;
   if (id == ~0ul) return;
   DO_PWMGenerators->Free(id);
 }
@@ -354,7 +354,7 @@ void setPWMRate(double rate, int32_t *status) {
  * @param dutyCycle The percent duty cycle to output [0..1].
  */
 void setPWMDutyCycle(void* pwmGenerator, double dutyCycle, int32_t *status) {
-  uint32_t id = (uint32_t) pwmGenerator;
+  uintmax_t id = (uintmax_t) pwmGenerator;
   if (id == ~0ul) return;
   if (dutyCycle > 1.0) dutyCycle = 1.0;
   if (dutyCycle < 0.0) dutyCycle = 0.0;
@@ -381,7 +381,7 @@ void setPWMDutyCycle(void* pwmGenerator, double dutyCycle, int32_t *status) {
  * @param channel The Digital Output channel to output on
  */
 void setPWMOutputChannel(void* pwmGenerator, uint32_t pin, int32_t *status) {
-  uint32_t id = (uint32_t) pwmGenerator;
+  uintmax_t id = (uintmax_t) pwmGenerator;
   if (id > 5) return;
   digitalSystem->writePWMOutputSelect(id, pin, status);
 }
