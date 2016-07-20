@@ -95,6 +95,15 @@ new_git_repository(
   commit = '722f7e2be05a51c69644662ec514d6149b2b7ef8',
 )
 
+# TODO(m3rcuriel): build opencv from github
+new_http_archive(
+  name = 'opencv',
+  build_file = 'external_builds/opencv.BUILD',
+  sha256 = '82107743271fc93887caa69854fe86e866c02dc93ab23d780f8240b602d0c2dc',
+  strip_prefix = 'opencv',
+  url = 'https://valkyrierobotics.com/builddeps/opencv.tar.gz',
+)
+
 #=======================================================#
 ######################## BOOST ##########################
 #=======================================================#
