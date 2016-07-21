@@ -85,9 +85,9 @@ common_copts = [
   '-DPERFTOOLS_DLL_DECL=',
   '-DSTDC_HEADERS=1',
   '-DSTL_NAMESPACE=std',
-  '-DPACKAGE_STRING=\\"gperftools\\ 2.4\\"',
+  '-DPACKAGE_STRING=\\"gperftools\\ 2.5\\"',
   '-DPACKAGE_BUGREPORT=\\"lee.mracek@gmail.com\\"',
-  '-DPACKAGE_VERSION=\\"2.4\\"',
+  '-DPACKAGE_VERSION=\\"2.5\\"',
 ] + cpu_select({
   'amd64': [
     '-DHAVE_GETPAGESZE=1',
@@ -139,6 +139,9 @@ cc_library(
   ],
   linkopts = [
     '-pthread',
+  ],
+  defines = [
+    'GPERFTOOLS_CONFIG_H_',
   ],
   copts = common_copts,
   alwayslink = True,
