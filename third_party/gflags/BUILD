@@ -36,6 +36,7 @@ cc_library(
         "-DHAVE_PTHREAD",
         "-DHAVE_RWLOCK",
         "-DGFLAGS_INTTYPES_FORMAT_C99",
+        "-Wno-error=format-nonliteral",
     ],
     includes = [
         "include",
