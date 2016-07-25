@@ -2,6 +2,8 @@
 
 licenses(["notice"])
 
+load("/tools/build_rules/select", "compiler_select")
+
 ################################################################################
 # Protobuf Runtime Library
 ################################################################################
@@ -13,7 +15,18 @@ COPTS = [
     "-Woverloaded-virtual",
     "-Wno-sign-compare",
     "-Wno-error=unused-function",
-]
+    "-Wno-error=unused-parameter",
+    "-Wno-error=switch-enum",
+    "-Wno-error=format-nonliteral",
+] + compiler_select({
+    "gcc": [
+        "-Wno-error=cast-align",
+    ],
+    "clang": [
+        "-Wno-error=unused-const-variable",
+        "-Wno-error=unused-private-field",
+    ],
+})
 
 config_setting(
     name = "android",
@@ -97,12 +110,7 @@ cc_library(
         "src/google/protobuf/wire_format_lite.cc",
     ],
     hdrs = glob(["src/google/protobuf/**/*.h"]),
-    copts = select({
-        ":ios_armv7": IOS_ARM_COPTS,
-        ":ios_armv7s": IOS_ARM_COPTS,
-        ":ios_arm64": IOS_ARM_COPTS,
-        "//conditions:default": COPTS,
-    }),
+    copts = COPTS, # changed from google's source because nesting selectors sucks
     includes = ["src/"],
     linkopts = LINK_OPTS,
     visibility = ["//visibility:public"],
@@ -167,12 +175,7 @@ cc_library(
         "src/google/protobuf/wrappers.pb.cc",
     ],
     hdrs = glob(["src/**/*.h"]),
-    copts = select({
-        ":ios_armv7": IOS_ARM_COPTS,
-        ":ios_armv7s": IOS_ARM_COPTS,
-        ":ios_arm64": IOS_ARM_COPTS,
-        "//conditions:default": COPTS,
-    }),
+    copts = COPTS,
     includes = ["src/"],
     linkopts = LINK_OPTS,
     visibility = ["//visibility:public"],
