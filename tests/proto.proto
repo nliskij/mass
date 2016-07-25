@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package controve;
+
+import "google/protobuf/empty.proto";
+
+message PTest {
+    string s = 1;
+    int32 i = 2;
+    .google.protobuf.Empty empty = 3;
+}
