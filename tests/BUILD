@@ -1,5 +1,16 @@
 load('/tools/build_rules/protobuf', 'proto_cc_library')
 
+cc_test(
+    name = 'test_gflags',
+    srcs = [
+        'test_gflags.cpp',
+    ],
+    deps = [
+        '//third_party/gflags',
+    ],
+    size = 'small',
+)
+
 cc_binary(
     name = 'test_tcmalloc_binary',
     srcs = [
