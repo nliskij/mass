@@ -15,7 +15,7 @@ COPTS = [
     "-Woverloaded-virtual",
     "-Wno-sign-compare",
     "-Wno-error=unused-function",
-    "-Wno-error=unused-parameter",
+    "-Wno-unused-parameter",
     "-Wno-error=switch-enum",
     "-Wno-error=format-nonliteral",
 ] + compiler_select({
