@@ -104,6 +104,37 @@ new_http_archive(
   url = 'https://valkyrierobotics.com/builddeps/opencv.tar.gz',
 )
 
+new_http_archive(
+  name = 'six_repo',
+  build_file = 'external_builds/six.BUILD',
+  url = 'https://pypi.python.org/packages/source/s/six/six-1.10.0.tar.gz',
+  strip_prefix = 'six-1.10.0',
+  sha256 = '105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a',
+)
+
+# In for protobuf. Don't use these, that use is unsupported.
+bind(
+  name = 'six',
+  actual = '@six_repo//:six',
+)
+
+bind(
+    name = 'gtest',
+    actual = '@googletest_repo//:googlemock',
+)
+
+bind(
+    name = 'gtest_main',
+    actual = '@googletest_repo//:googlemock_main',
+)
+
+# TODO(m3rcuriel) remember to probably replace this with actual python headers
+# for if we ever use python protobuf
+bind(
+  name = 'python_headers',
+  actual = '//:dummy',
+)
+
 #=======================================================#
 ######################## BOOST ##########################
 #=======================================================#
