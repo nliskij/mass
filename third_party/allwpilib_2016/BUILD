@@ -8,6 +8,7 @@ _header_dirs = [
   'hal/include',
   'hal/lib/Athena/FRC_FPGA_ChipObject',
   'hal/lib/Athena',
+  'hal/lib/Shared/FRC_NetworkCommunication',
 ]
 
 # Whole subdirectories of WPILib we don't want around.
