@@ -78,14 +78,14 @@ new_http_archive(
     name = 'arm_frc_linux_gnueabi_repo',
     build_file = 'tools/cpp/arm-frc-linux-gnueabi/arm-frc-linux-gnueabi.BUILD',
     sha256 = '9e93b0712e90d11895444f720f0c90c649fb9becb4ca28bb50749d9074eb1306',
-    url = 'http://frc971.org/Build-Dependencies/roborio-compiler-2016.tar.gz',
+    url = 'https://valkyrierobotics.com/builddeps/roborio-compiler-2016.tar.gz',
 )
 
 new_http_archive(
   name = 'linaro_linux_gcc_4_9_repo',
   build_file = 'tools/cpp/linaro_linux_gcc/linaro_linux_gcc_4.9.BUILD',
   sha256 = '25e97bcb0af4fd7cd626d5bb1b303c7d2cb13acf2474e335e3d431d1a53fbb52',
-  url = 'http://frc971.org/Build-Dependencies/gcc-linaro-4.9-2015.05-x86_64_arm-linux-gnueabihf.tar.gz',
+  url = 'https://valkyrierobotics.com/builddeps/gcc-linaro-4.9-2015.05-x86_64_arm-linux-gnueabihf.tar.gz',
 )
 
 new_git_repository(
