@@ -201,11 +201,7 @@ def internal_gen_well_known_protos_java(srcs):
   Args:
     srcs: the well known protos
   """
-  root = Label("%s//protobuf_java" % (REPOSITORY_NAME)).workspace_root
-  if root == "":
-    include = " -Isrc "
-  else:
-    include = " -I%s/src " % root
+  include = "-Ithird_party/protobuf/src"
   native.genrule(
     name = "gen_well_known_protos_java",
     srcs = srcs,

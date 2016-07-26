@@ -10,6 +10,7 @@ load("/tools/build_rules/select", "compiler_select")
 
 COPTS = [
     "-DHAVE_PTHREAD",
+    "-DGOOGLE_THIRD_PARTY_PROTOBUF",
     "-Wall",
     "-Wwrite-strings",
     "-Woverloaded-virtual",
@@ -18,6 +19,8 @@ COPTS = [
     "-Wno-unused-parameter",
     "-Wno-error=switch-enum",
     "-Wno-error=format-nonliteral",
+    "-Wno-missing-field-initializers",
+    "-Wno-ignored-qualifiers",
 ] + compiler_select({
     "gcc": [
         "-Wno-error=cast-align",
@@ -182,6 +185,7 @@ cc_library(
     deps = [":protobuf_lite"],
 )
 
+'''
 objc_library(
     name = "protobuf_objc",
     hdrs = ["objectivec/GPBProtocolBuffers.h"],
@@ -189,6 +193,7 @@ objc_library(
     non_arc_srcs = ["objectivec/GPBProtocolBuffers.m"],
     visibility = ["//visibility:public"],
 )
+'''
 
 RELATIVE_WELL_KNOWN_PROTOS = [
     # AUTOGEN(well_known_protos)
@@ -406,6 +411,8 @@ cc_proto_library(
     default_runtime = ":protobuf",
     protoc = ":protoc",
     deps = [":cc_wkt_protos"],
+    # TODO(m3rcuriel) fix in upstream or something
+    copts = COPTS,
 )
 
 COMMON_TEST_SRCS = [
@@ -429,6 +436,11 @@ cc_binary(
         ":protobuf",
         ":protoc_lib",
         "//external:gtest",
+    ],
+    # TODO(m3rcuriel) PR fix upstream
+    copts = [
+        "-Wno-error=unused-parameter",
+        "-Wno-error=sign-compare",
     ],
 )
 
@@ -539,18 +551,18 @@ java_library(
     visibility = ["//visibility:public"],
 )
 
-java_library(
-    name = "protobuf_java_util",
-    srcs = glob([
-        "java/util/src/main/java/com/google/protobuf/util/*.java",
-    ]),
-    deps = [
-        "protobuf_java",
-        "//external:gson",
-        "//external:guava",
-    ],
-    visibility = ["//visibility:public"],
-)
+# java_library(
+#     name = "protobuf_java_util",
+#     srcs = glob([
+#         "java/util/src/main/java/com/google/protobuf/util/*.java",
+#     ]),
+#     deps = [
+#         "protobuf_java",
+#         "//external:gson",
+#         "//external:guava",
+#     ],
+#     visibility = ["//visibility:public"],
+# )
 
 ################################################################################
 # Python support
@@ -574,6 +586,7 @@ py_library(
     imports = ["python"],
 )
 
+'''
 cc_binary(
     name = "internal/_api_implementation.so",
     srcs = ["python/google/protobuf/internal/api_implementation.cc"],
@@ -613,6 +626,7 @@ cc_binary(
         ":use_fast_cpp_protos": ["//external:python_headers"],
     }),
 )
+'''
 
 config_setting(
     name = "use_fast_cpp_protos",
