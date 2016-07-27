@@ -24,7 +24,7 @@ if [[ -n "${BAZEL_OVERRIDE+x}" ]]; then
   exec "${BAZEL_OVERRIDE}" "$@"
 fi
 
-readonly VERSION="201607070016+7a0d360"
+readonly VERSION="201607261933+da8331d"
 
 readonly DOWNLOAD_DIR="$(dirname "${BASH_SOURCE[0]}")/../bazel-downloads"
 # Directory to unpack bazel into.  This must change whenever bazel changes.
@@ -41,7 +41,7 @@ if [[ ! -d "${DOWNLOAD_DIR}" ]]; then
 fi
 
 readonly INSTALLER_NAME="bazel_${VERSION}_amd64.deb"
-readonly DOWNLOAD_URL="http://frc971.org/Build-Dependencies/${INSTALLER_NAME}"
+readonly DOWNLOAD_URL="https://valkyrierobotics.com/builddeps/${INSTALLER_NAME}"
 
 if [[ ! -d "${VERSION_DIR}" ]]; then
   echo "Downloading Bazel version ${VERSION} from ${DOWNLOAD_URL}..." >&2
