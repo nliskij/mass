@@ -15,6 +15,8 @@ set -e
 set -u
 set -o pipefail
 
+readonly BIT=`getconf LONG_BIT`
+
 if [[ -n "${BAZEL_OVERRIDE+x}" ]]; then
   tput setaf 1 >&2
   echo -n "Actually calling " >&2
@@ -24,7 +26,7 @@ if [[ -n "${BAZEL_OVERRIDE+x}" ]]; then
   exec "${BAZEL_OVERRIDE}" "$@"
 fi
 
-readonly VERSION="201607261933+da8331d"
+readonly VERSION="201607271609+da8331d"
 
 readonly DOWNLOAD_DIR="$(dirname "${BASH_SOURCE[0]}")/../bazel-downloads"
 # Directory to unpack bazel into.  This must change whenever bazel changes.
