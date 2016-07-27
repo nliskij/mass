@@ -55,13 +55,6 @@ bind(
 )
 
 new_git_repository(
-    name = 'protobuf',
-    commit = '06220303323f3cce425706540defcd7a29d42ec2',
-    remote = 'https://github.com/google/protobuf',
-    build_file = 'external_builds/protobuf.BUILD',
-)
-
-new_git_repository(
     name = 'googletest_repo',
     remote = 'https://github.com/google/googletest',
     build_file = 'external_builds/googletest.BUILD',
