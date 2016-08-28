@@ -34,4 +34,6 @@ Steps to set-up _your_ (Debian Jessie) computer to build the code:
     ```console
     bazel test //...
     ```
+
+[Steps to set-up your non-Debian computer to build the code](https://github.com/valkyrierobotics/dev-environment)
     
