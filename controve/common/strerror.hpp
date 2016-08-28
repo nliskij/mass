@@ -4,7 +4,7 @@
 /// @file strerror.hpp
 /// @brief Thread-safe implemenation of the POSIX function strerror(3)
 /// @author Lee Mracek
-/// @bugs None
+/// @bug No known bugs
 ///
 /// A short list of POSIX functions are not required to be thread-
 /// safe. Unfortunately, we need them to be thread-safe, so the ones that we
