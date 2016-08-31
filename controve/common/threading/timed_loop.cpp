@@ -1,18 +1,28 @@
 #include "controve/common/threading/timed_loop.hpp"
 
-namespace controve {
-namespace time {
+#include <iostream>
 
-int TimedLoop::loop(const Time &now) {
-  // 1. Floor the value ((now - phase) / 400) * 400)
+/// @file timed_loop.cpp
+/// @author Lee Mracek
+/// @bugs No known bugs.
+
+namespace controve {
+namespace timing {
+
+using ::controve::timing::monotonic_clock;
+
+int TimedLoop::loop(const monotonic_clock::time_point &now) {
+  using ::std::chrono::duration_cast;
+  using ::std::chrono::nanoseconds;
+
+  // 1. Floor the value ((now - phase) / period) * period)
   // 2. Add the period if we've had a single cycle
   // 3. Add the phase
-  const Time next_time = Time::inNSecs(((now - phase_).toNSecs() + 1) /
-      period_.toNSecs() * period_.toNSecs()) +
-      ((now < phase_) ? Time::ZERO : period_) + phase_;
+  const monotonic_clock::time_point next_time = ((now - phase_).time_since_epoch().count() + 1) / period_.count() * (period_)
+    + ((now.time_since_epoch() < phase_) ? monotonic_clock::epoch() : monotonic_clock::time_point(period_)) + phase_;
 
-  const Time difference = next_time - last_time_;
-  const int result = difference.toNSecs() / period_.toNSecs();
+  const auto difference = next_time - last_time_;
+  const int result = duration_cast<nanoseconds>(difference).count() / duration_cast<nanoseconds>(period_).count();
   last_time_ = next_time;
   return result;
 }
