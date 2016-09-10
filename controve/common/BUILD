@@ -11,6 +11,12 @@ cc_library(
     hdrs = [ 'time.hpp' ],
 )
 
+cc_library(
+    name = 'config',
+    visibility = ['//visibility:public'],
+    hdrs = [ 'config.hpp' ],
+)
+
 cc_test(
     name = 'test_time',
     srcs = [ 'test_time.cpp' ],
