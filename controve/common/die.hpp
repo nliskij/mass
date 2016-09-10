@@ -4,8 +4,16 @@
 #include <cstdarg>
 #include "controve/common/config.hpp"
 
+/// @file die.hpp
+/// @author Lee Mracek
+/// @brief Utility to log a message and then die
+/// @bugs No known bugs
+
 namespace controve {
 
+/// print formatted message and then abort with SIGABRT
+/// @param format the format-string to log
+/// @param ... the formatted variables
 void die(const char *format, ...)
     __attribute__((noreturn))
     __attribute__((format(COMPILER_PRINTF_FORMAT, 1, 2)));
