@@ -1,5 +1,5 @@
-#ifndef CONTROVE_COMMON_STRERROR_HPP_
-#define CONTROVE_COMMON_STRERROR_HPP_
+#ifndef CONTROVE_COMMON_LIBC_STRERROR_HPP_
+#define CONTROVE_COMMON_LIBC_STRERROR_HPP_
 
 /// @file strerror.hpp
 /// @brief Thread-safe implemenation of the POSIX function strerror(3)
@@ -11,8 +11,6 @@
 /// use need to be rewritten. A full list can be found at
 /// http://pubs.opengroup.org/onlinepubs/9699919799/functions/V2_chap02.html#tag_15_09_01
 
-namespace controve {
-
 /// @brief Custom implemenation of strerror(3) to be thread-safe
 /// Essentially this acts as a safe wrapper for strerror(3).
 ///
@@ -20,6 +18,4 @@ namespace controve {
 /// @return A char* array containing the user-friendly form of the error 
 const char *controve_strerror(int error);
 
-}  // namespace controve
-
-#endif  // CONTROVE_COMMON_STRERROR_HPP_
+#endif  // CONTROVE_COMMON_LIBC_STRERROR_HPP_

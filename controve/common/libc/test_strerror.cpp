@@ -1,4 +1,4 @@
-#include "controve/common/strerror.hpp"
+#include "controve/common/libc/strerror.hpp"
 
 #include <cerrno>
 
@@ -8,9 +8,9 @@ namespace controve {
 namespace testing {
 
 TEST(StrerrorTest, Basic) {
-  EXPECT_STREQ("Argument list too long", controve::controve_strerror(E2BIG));
-  EXPECT_STREQ("Bad file descriptor", controve::controve_strerror(EBADF));
-  EXPECT_STREQ("Unknown error 4021", controve::controve_strerror(4021));
+  EXPECT_STREQ("Argument list too long", controve_strerror(E2BIG));
+  EXPECT_STREQ("Bad file descriptor", controve_strerror(EBADF));
+  EXPECT_STREQ("Unknown error 4021", controve_strerror(4021));
 }
 
 // Compare every single error number with the output of the system strerror
