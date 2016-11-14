@@ -3,6 +3,7 @@
 
 #include <cstdarg>
 #include "controve/common/config.hpp"
+#include "controve/common/libc/strerror.hpp"
 
 /// @file die.hpp
 /// @author Lee Mracek

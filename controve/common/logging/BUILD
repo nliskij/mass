@@ -3,6 +3,11 @@ cc_library(
   visibility = ['//visibility:public'],
   hdrs = [
     'logging.hpp',
+    'frame.hpp',
+  ],
+  srcs = [
+    'interface.cpp',
+    'frame.cpp'
   ],
   deps = [
     '//controve/common:die',
@@ -11,13 +16,30 @@ cc_library(
   ]
 )
 
-cc_test(
-  name = 'test_logging',
+cc_library(
+  name = 'handlers',
+  visibility = ['//visibility:public'],
   srcs = [
-    'test_logging.cpp',
+    'handlers.cpp',
+  ],
+  hdrs = [
+    'handlers.hpp',
+  ],
+  deps = [
+    '//controve/common:die',
+    ':logging',
+    '//controve/common:config',
+  ]
+)
+
+cc_test(
+  name = 'test_handlers',
+  srcs = [
+    'test_handlers.cpp',
   ],
   deps = [
     '//controve/tests:googletest',
     ':logging',
-  ]
+    ':handlers',
+  ],
 )

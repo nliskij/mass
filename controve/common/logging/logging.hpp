@@ -6,35 +6,43 @@
 #include <cstdlib>
 #include <string>
 #include <cerrno>
+#include <functional>
+#include <cstdarg>
 
 #include "controve/common/config.hpp"
 #include "controve/common/libc/strerror.hpp"
 
 using log_level = uint8_t;
 
-static const log_level DEBUG = 0;
-static const log_level INFO = 1;
-static const log_level WARNING = 2;
-static const log_level ERROR = 3;
-static const log_level FATAL = 4;
-static const log_level LOG_UNKNOWN = 5;
+#define DECLARE_LEVELS \
+DECLARE_LEVEL(DEBUG,       0); \
+DECLARE_LEVEL(INFO,        1); \
+DECLARE_LEVEL(WARNING,     2); \
+DECLARE_LEVEL(ERROR,       3); \
+DECLARE_LEVEL(FATAL,       4); \
+DECLARE_LEVEL(LOG_UNKNOWN, 5); 
 
-void doLog(log_level level, const char *format, ...)
+#define DECLARE_LEVEL(name, value) \
+  static const log_level name = value;
+  DECLARE_LEVELS;
+#undef DECLARE_LEVEL
+
+void logDo(log_level level, const char *format, ...)
   __attribute__((format(COMPILER_PRINTF_FORMAT, 2, 3)));
 
 #define STRINGIFY(x) TO_STRING(x)
 #define TO_STRING(x) #x
 
-#define LOG_CURRENT_FUNCTION __PRETTY_FUNCTION__
+#define LOG_CURRENT_FUNCTION __func__ // __PRETTY_FUNCTION__
 
 #define LOG_SOURCENAME __FILE__
 
 #define LOG(level, format, args...)                                         \
   do {                                                                      \
-    doLog(level, LOG_SOURCENAME ": " STRINGIFY(__LINE__) ": %s: " format,   \
+    logDo(level, LOG_SOURCENAME ": " STRINGIFY(__LINE__) ": %s: " format,   \
           LOG_CURRENT_FUNCTION, ##args);                                    \
     if (level == FATAL) {                                                   \
-      fprintf(stderr, "doLog(FATAL) fell through!\n");                      \
+      fprintf(stderr, "logDo(FATAL) fell through!\n");                      \
       printf("see stderr\n");                                               \
       abort();                                                              \
     }                                                                       \
@@ -73,10 +81,10 @@ namespace controve {
   inline void LogImpl##name(const T1 &v1, const T2 &v2,                     \
                             const char *text) {                             \
     if(!__builtin_expect(v1 op v2, 1)) {                                    \
-      doLog(FATAL,                                                          \
+      logDo(FATAL,                                                          \
             LOG_SOURCENAME ": " STRINGIFY(__LINE__) ": CHECK(%s) failed\n", \
             text);                                                          \
-      fprintf(stderr, "doLog(FATAL) fell through!\n");                      \
+      fprintf(stderr, "logDo(FATAL) fell through!\n");                      \
       printf("see stderr\n");                                               \
       abort();                                                              \
     }                                                                       \
@@ -130,6 +138,55 @@ inline void CheckSyscallReturn(const char *syscall_string, int value) {
 
 #define PRCHECK(syscall) ::controve::CheckSyscallReturn(STRINGIFY(syscall), syscall)
 
+// non-api code
+
+namespace logging {
+
+struct MessageType;
+
+void VaLog(log_level level, const char *format, va_list ap)
+  __attribute((format(COMPILER_PRINTF_FORMAT, 2, 0)));
+
+class Handler {
+  public:
+    Handler() : nextptr(nullptr) {}
+
+    Handler *next() { return nextptr; }
+
+    virtual void setNext(Handler *next) { nextptr = next; }
+
+  protected:
+    __attribute__((format(COMPILER_PRINTF_FORMAT, 3, 0)))
+    virtual void doLog(log_level level, const char *format, va_list ap) = 0;
+
+    __attribute__((format(COMPILER_PRINTF_FORMAT, 3, 4)))
+    virtual void doLogVa(log_level level, const char* format, ...) {
+      va_list ap;
+      va_start(ap, format);
+      doLog(level, format, ap);
+      va_end(ap);
+    }
+
+  private:
+    __attribute__((format(COMPILER_PRINTF_FORMAT, 2, 0)))
+    static void doVaLog(log_level, const char *format, va_list ap, int levels);
+
+    __attribute__((format(COMPILER_PRINTF_FORMAT, 2, 0)))
+    friend void vaLog(log_level, const char*, va_list);
+
+    Handler *nextptr;
+};
+
+namespace internal {
+
+size_t executeFormat(char *output, size_t output_size, const char *format,
+                     va_list ap)
+  __attribute__((format(COMPILER_PRINTF_FORMAT, 3, 0)));
+
+void runWithCurrentHandler(int levels, ::std::function<void(Handler *)> function);
+
+}  // namespace internal
+}  // namespace logging
 }  // namespace controve
 
 #endif
