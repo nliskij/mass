@@ -3,6 +3,11 @@ cc_library(
   visibility = ['//visibility:public'],
   hdrs = [
     'logging.hpp',
+    'frame.hpp',
+  ],
+  srcs = [
+    'interface.cpp',
+    'frame.cpp'
   ],
   deps = [
     '//controve/common:die',

@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <string>
 #include <cerrno>
+#include <functional>
+#include <cstdarg>
 
 #include "controve/common/config.hpp"
 #include "controve/common/libc/strerror.hpp"
@@ -130,6 +132,55 @@ inline void CheckSyscallReturn(const char *syscall_string, int value) {
 
 #define PRCHECK(syscall) ::controve::CheckSyscallReturn(STRINGIFY(syscall), syscall)
 
+// non-api code
+
+namespace logging {
+
+struct MessageType;
+
+void VaLog(log_level level, const char *format, va_list ap)
+  __attribute((format(COMPILER_PRINTF_FORMAT, 2, 0)));
+
+class Handler {
+  public:
+    Handler() : nextptr(nullptr) {}
+
+    Handler *next() { return nextptr; }
+
+    virtual void setNext(Handler *next) { nextptr = next; }
+
+  protected:
+    __attribute__((format(COMPILER_PRINTF_FORMAT, 3, 0)))
+    virtual void doLog(log_level level, const char *format, va_list ap) = 0;
+
+    __attribute__((format(COMPILER_PRINTF_FORMAT, 3, 4)))
+    virtual void doLogVa(log_level level, const char* format, ...) {
+      va_list ap;
+      va_start(ap, format);
+      doLog(level, format, ap);
+      va_end(ap);
+    }
+
+  private:
+    __attribute__((format(COMPILER_PRINTF_FORMAT, 2, 0)))
+    static void doVaLog(log_level, const char *format, va_list ap, int levels);
+
+    __attribute__((format(COMPILER_PRINTF_FORMAT, 2, 0)))
+    friend void vaLog(log_level, const char*, va_list);
+
+    Handler *nextptr;
+};
+
+namespace internal {
+
+size_t executeFormat(char *output, size_t output_size, const char *format,
+                     va_list ap)
+  __attribute__((format(COMPILER_PRINTF_FORMAT, 3, 0)));
+
+void runWithCurrentHandler(int levels, ::std::function<void(Handler *)> function);
+
+}  // namespace internal
+}  // namespace logging
 }  // namespace controve
 
 #endif
