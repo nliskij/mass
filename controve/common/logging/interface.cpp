@@ -75,7 +75,7 @@ void vaLog(log_level level, const char* format, va_list ap) {
 }  // namespace logging
 }  // namespace controve
 
-void doLog(log_level level, const char *format, ...) {
+void logDo(log_level level, const char *format, ...) {
   va_list ap;
   va_start(ap, format);
   controve::logging::vaLog(level, format, ap);

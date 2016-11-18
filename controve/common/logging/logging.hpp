@@ -14,14 +14,20 @@
 
 using log_level = uint8_t;
 
-static const log_level DEBUG = 0;
-static const log_level INFO = 1;
-static const log_level WARNING = 2;
-static const log_level ERROR = 3;
-static const log_level FATAL = 4;
-static const log_level LOG_UNKNOWN = 5;
+#define DECLARE_LEVELS \
+DECLARE_LEVEL(DEBUG,       0); \
+DECLARE_LEVEL(INFO,        1); \
+DECLARE_LEVEL(WARNING,     2); \
+DECLARE_LEVEL(ERROR,       3); \
+DECLARE_LEVEL(FATAL,       4); \
+DECLARE_LEVEL(LOG_UNKNOWN, 5); 
 
-void doLog(log_level level, const char *format, ...)
+#define DECLARE_LEVEL(name, value) \
+  static const log_level name = value;
+  DECLARE_LEVELS;
+#undef DECLARE_LEVEL
+
+void logDo(log_level level, const char *format, ...)
   __attribute__((format(COMPILER_PRINTF_FORMAT, 2, 3)));
 
 #define STRINGIFY(x) TO_STRING(x)
@@ -33,10 +39,10 @@ void doLog(log_level level, const char *format, ...)
 
 #define LOG(level, format, args...)                                         \
   do {                                                                      \
-    doLog(level, LOG_SOURCENAME ": " STRINGIFY(__LINE__) ": %s: " format,   \
+    logDo(level, LOG_SOURCENAME ": " STRINGIFY(__LINE__) ": %s: " format,   \
           LOG_CURRENT_FUNCTION, ##args);                                    \
     if (level == FATAL) {                                                   \
-      fprintf(stderr, "doLog(FATAL) fell through!\n");                      \
+      fprintf(stderr, "logDo(FATAL) fell through!\n");                      \
       printf("see stderr\n");                                               \
       abort();                                                              \
     }                                                                       \
@@ -75,10 +81,10 @@ namespace controve {
   inline void LogImpl##name(const T1 &v1, const T2 &v2,                     \
                             const char *text) {                             \
     if(!__builtin_expect(v1 op v2, 1)) {                                    \
-      doLog(FATAL,                                                          \
+      logDo(FATAL,                                                          \
             LOG_SOURCENAME ": " STRINGIFY(__LINE__) ": CHECK(%s) failed\n", \
             text);                                                          \
-      fprintf(stderr, "doLog(FATAL) fell through!\n");                      \
+      fprintf(stderr, "logDo(FATAL) fell through!\n");                      \
       printf("see stderr\n");                                               \
       abort();                                                              \
     }                                                                       \

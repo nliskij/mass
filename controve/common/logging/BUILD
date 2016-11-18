@@ -16,6 +16,22 @@ cc_library(
   ]
 )
 
+cc_library(
+  name = 'handlers',
+  visibility = ['//visibility:public'],
+  srcs = [
+    'handlers.cpp',
+  ],
+  hdrs = [
+    'handlers.hpp',
+  ],
+  deps = [
+    '//controve/common:die',
+    ':logging',
+    '//controve/common:config',
+  ]
+)
+
 cc_test(
   name = 'test_logging',
   srcs = [
