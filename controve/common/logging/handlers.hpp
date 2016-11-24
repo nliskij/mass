@@ -7,6 +7,7 @@
 #include <cstring>
 #include <cstdarg>
 
+#include "controve/common/logging/frame.hpp"
 #include "controve/common/config.hpp"
 #include "controve/common/logging/logging.hpp"
 

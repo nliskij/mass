@@ -33,7 +33,7 @@ void logDo(log_level level, const char *format, ...)
 #define STRINGIFY(x) TO_STRING(x)
 #define TO_STRING(x) #x
 
-#define LOG_CURRENT_FUNCTION __PRETTY_FUNCTION__
+#define LOG_CURRENT_FUNCTION __func__ // __PRETTY_FUNCTION__
 
 #define LOG_SOURCENAME __FILE__
 

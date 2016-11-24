@@ -8,8 +8,6 @@
 #include "controve/common/die.hpp"
 #include "controve/common/logging/frame.hpp"
 
-/// Implementation of non-api code in logging.hpp
-
 namespace controve {
 namespace logging {
 namespace internal {

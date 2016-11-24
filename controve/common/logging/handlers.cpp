@@ -10,6 +10,13 @@
 #include "controve/common/die.hpp"
 #include "controve/common/logging/frame.hpp"
 
+/// @file handlers.cpp
+/// @author Lee Mracek
+/// @brief Contains implementations for logging Handlers
+///
+/// @details Provides implementations and utility methods for logging handlers, as well
+/// as methods to initialize the general logging state.
+
 namespace controve {
 namespace logging {
 namespace {
@@ -87,7 +94,7 @@ void fillInMessage(log_level level, const char *format, va_list ap,
   message->type = LogMessage::Type::STRING;
 }
 
-void timestmp(char *output, size_t count,
+void timestmp(char *output, size_t,
               const ::std::chrono::time_point
               <::std::chrono::system_clock> &now) {
   ::std::chrono::microseconds usecs =
@@ -97,17 +104,13 @@ void timestmp(char *output, size_t count,
   ::std::chrono::seconds secs =
     ::std::chrono::duration_cast<::std::chrono::seconds>(usecs);
 
-  ::std::time_t t = secs.count();
+  unsigned int secscount = secs.count();
   unsigned int fsecs = usecs.count() % 1000000;
 
-  
-  strftime(output, sizeof(output), "%D %Z-%H:%M:%S", localtime(&t));
-  
-  // non-literal
+  char timestr[20] = {0};
+  snprintf(timestr, sizeof(timestr), "%u.%06u", secscount, fsecs);
 
-  char timestr[8];
-  snprintf(timestr, count, ".%06u", fsecs);
-  strcat(output, timestr);
+  memcpy(output, timestr, sizeof(timestr));
 }
 
 
@@ -119,7 +122,7 @@ void printMessage(FILE *output, const LogMessage &message) {
     case LogMessage::Type::STRING:
       char outstr[100];
       timestmp(outstr, sizeof(outstr), message.time);
-      fprintf(output, LOGGING_BASE_FORMAT "%.*s", ARGS, outstr, 
+      fprintf(output, LOGGING_BASE_FORMAT " %.*s", ARGS, outstr, 
           static_cast<int>(message.messageLength), message.message);
       break;
     case LogMessage::Type::STRUCT:

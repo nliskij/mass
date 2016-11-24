@@ -33,12 +33,13 @@ cc_library(
 )
 
 cc_test(
-  name = 'test_logging',
+  name = 'test_handlers',
   srcs = [
-    'test_logging.cpp',
+    'test_handlers.cpp',
   ],
   deps = [
     '//controve/tests:googletest',
     ':logging',
-  ]
+    ':handlers',
+  ],
 )
