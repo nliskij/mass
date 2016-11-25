@@ -20,8 +20,9 @@ def _proto_cc_library_impl(ctx):
         ],
     )
 
-def _proto_cc_library_outputs(attr):
-    rootname = attr.src.name[:-len('.proto')]
+def _proto_cc_library_outputs(src):
+    rootname = src.name[:-len('.proto')]
+    print("%s" % src.name)
     return {
         'pb_h': '%s.pb.h' % rootname,
         'pb_cc': '%s.pb.cc' % rootname,
@@ -31,14 +32,14 @@ _proto_cc_library = rule(
     implementation = _proto_cc_library_impl,
     attrs = {
         'src': attr.label(
-            allow_files = FileType(['.proto']),
+            allow_files = ['.proto'],
             mandatory = True,
             single_file = True,
         ),
         '_protoc': attr.label(
             default = Label('//third_party/protobuf:protoc'),
             executable = True,
-            cfg = HOST_CFG,
+            cfg = 'host',
         ),
         '_google_include_protos': attr.label(
             default = Label('//third_party/protobuf:well_known_protos'),

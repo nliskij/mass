@@ -49,6 +49,14 @@ filegroup(
     }),
 )
 
+cc_toolchain_suite(
+    name = "default-toolchain",
+    toolchains = {
+        "k8|clang": ":cc-compiler-k8",
+        "armhf-debian|clang": ":cc-compiler-armhf-debian",
+    },
+)
+
 cc_toolchain(
     name = 'cc-compiler-k8',
     all_files = ':flags_compiler_inputs',

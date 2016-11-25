@@ -70,8 +70,8 @@ new_http_archive(
     name = 'eigen_repo',
     build_file = 'external_builds/eigen.BUILD',
     sha256 = '8d01d2d3a173c59065642a08d1dd661b399e4fed6edbda632143e7be937de7e0',
-    url = 'https://valkyrierobotics.com/builddeps/eigen-eigen-07105f7124f9.tar.gz',
-    strip_prefix = 'eigen-eigen-07105f7124f9',
+    url = 'https://valkyrierobotics.com/builddeps/eigen-eigen-26667be4f70b.tar.gz',
+    strip_prefix = 'eigen-eigen-26667be4f70b.tar.gz',
 )
 
 new_http_archive(
@@ -93,15 +93,6 @@ new_git_repository(
   build_file = 'external_builds/asio.BUILD',
   remote = 'https://github.com/chriskohlhoff/asio',
   commit = '722f7e2be05a51c69644662ec514d6149b2b7ef8',
-)
-
-# TODO(m3rcuriel): build opencv from github
-new_http_archive(
-  name = 'opencv',
-  build_file = 'external_builds/opencv.BUILD',
-  sha256 = '82107743271fc93887caa69854fe86e866c02dc93ab23d780f8240b602d0c2dc',
-  strip_prefix = 'opencv',
-  url = 'https://valkyrierobotics.com/builddeps/opencv.tar.gz',
 )
 
 new_http_archive(
