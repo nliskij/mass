@@ -26,7 +26,7 @@ if [[ -n "${BAZEL_OVERRIDE+x}" ]]; then
   exec "${BAZEL_OVERRIDE}" "$@"
 fi
 
-readonly VERSION="201607271609+da8331d"
+readonly VERSION="201611260101+82e3b90"
 
 readonly DOWNLOAD_DIR="$(dirname "${BASH_SOURCE[0]}")/../bazel-downloads"
 # Directory to unpack bazel into.  This must change whenever bazel changes.
@@ -82,24 +82,20 @@ if [[ -x "${VERSION_BAZEL}-real" ]]; then
   exec -a "${VERSION_BAZEL}" env -i \
       HOSTNAME="${HOSTNAME}" \
       SHELL="${SHELL}" \
-      USER="${USER}" \
       PATH="${PATH}" \
       HOME="${HOME}" \
       LOGNAME="${LOGNAME}" \
       TERM="${TERM}" \
-      DISPLAY="${DISPLAY}" \
       "${VERSION_BAZEL}-real" "$@"
 fi
 if [[ -x "${VERSION_BAZEL}" ]]; then
   exec env -i \
       HOSTNAME="${HOSTNAME}" \
       SHELL="${SHELL}" \
-      USER="${USER}" \
       PATH="${PATH}" \
       HOME="${HOME}" \
       LOGNAME="${LOGNAME}" \
       TERM="${TERM}" \
-      DISPLAY="${DISPLAY}" \
       "${VERSION_BAZEL}" "$@"
 fi
 

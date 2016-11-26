@@ -13,10 +13,10 @@ _header_dirs = [
 
 # Whole subdirectories of WPILib we don't want around.
 _excluded_shared_directories = [
-  'SmartDashboard',
-  'LiveWindow',
-  'Commands',
-  'Buttons',
+#  'SmartDashboard',
+#  'LiveWindow',
+#  'Commands',
+#  'Buttons',
   'Filters',
 ]
 

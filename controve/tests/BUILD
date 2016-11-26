@@ -5,7 +5,7 @@ cc_library(
        'test_main.cpp',
     ],
     deps = [
-        '//external:googletest',
+        '@googletest_repo//:googletest',
     ],
     testonly = True,
 )

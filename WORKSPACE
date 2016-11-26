@@ -61,10 +61,10 @@ new_git_repository(
     commit = 'ec44c6c1675c25b9827aacd08c02433cccde7780',
 )
 
-bind(
-    name = 'googletest',
-    actual = '@googletest_repo//:googletest',
-)
+#bind(
+#    name = 'googletest',
+#    actual = '@googletest_repo//:googletest',
+#)
 
 new_http_archive(
     name = 'eigen_repo',
