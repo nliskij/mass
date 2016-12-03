@@ -53,6 +53,7 @@ cc_toolchain_suite(
     name = "default-toolchain",
     toolchains = {
         "k8|clang": ":cc-compiler-k8",
+        "roborio|gcc": ":cc-compiler-roborio",
         "armhf-debian|clang": ":cc-compiler-armhf-debian",
     },
 )

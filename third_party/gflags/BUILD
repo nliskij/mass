@@ -37,6 +37,7 @@ cc_library(
         "-DHAVE_RWLOCK",
         "-DGFLAGS_INTTYPES_FORMAT_C99",
         "-Wno-error=format-nonliteral",
+        "-Wno-missing-field-initializers",
     ],
     includes = [
         "include",
