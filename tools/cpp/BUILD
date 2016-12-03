@@ -53,7 +53,7 @@ cc_toolchain_suite(
     name = "default-toolchain",
     toolchains = {
         "k8|clang": ":cc-compiler-k8",
-        "roborio|gcc": ":cc-compiler-roborio",
+        "roborio|clang": ":cc-compiler-roborio",
         "armhf-debian|clang": ":cc-compiler-armhf-debian",
     },
 )
@@ -102,7 +102,7 @@ filegroup(
 
 cc_toolchain(
     name = 'cc-compiler-roborio',
-    all_files = 'roborio-compiler-files',
+    all_files = ':roborio-compiler-files',
     compiler_files = ':roborio_compiler_files',
     cpu = 'roborio',
     dwp_files = ':empty',

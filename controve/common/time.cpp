@@ -15,8 +15,7 @@ void sleep_until(const ::controve::timing::monotonic_clock::time_point
         end_time.time_since_epoch() - s);
   endTimespec.tv_sec = s.count();
   endTimespec.tv_nsec = n.count();
-  int result;
-  result = clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &endTimespec,
+  clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &endTimespec,
       nullptr);
 }
 

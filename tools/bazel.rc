@@ -1,6 +1,6 @@
-build --crosstool_top=//tools/cpp:default-toolchain
+build --crosstool_top=//tools/cpp:toolchain
 
-build --host_crosstool_top=//tools/cpp:default-toolchain
+build --host_crosstool_top=//tools/cpp:toolchain
 
 build --strip=never
 
