@@ -2,10 +2,9 @@ licenses(['notice'])
 
 _header_dirs = [
     'wpilibc/shared/include',
-    'wpilibc/Athena/include',
+    'wpilibc/athena/include',
     'hal/include',
-    'hal/lib/Athena/FRC_FPGA_ChipObject',
-    'hal/lib/Athena',
+    'hal/lib/athena',
 ]
 
 _excluded_devices = [
@@ -29,18 +28,20 @@ _excluded_devices = [
     'ADXL362',
     'AnalogGyro',
     'AnalogAccelerometer',
+    'CameraServer',
 ]
 
 _excluded_shared_directories = [
     'SmartDashboard',
     'LiveWindow',
-    'Command',
+    'Commands',
     'Buttons',
     'Filters',
 ]
 
 _bad_hdrs = ([
   'wpilibc/athena/include/WPILib.h',
+  'hal/include/HAL/cpp/Semaphore.h',
 ] + ['wpilibc/shared/include/%s/**/*' % d
      for d in _excluded_shared_directories] +
  ['wpilibc/*/include/%s.h' % d for d in _excluded_devices])
@@ -60,7 +61,8 @@ cc_library(
    'hal/lib/athena/ctre/*.cpp',
    'hal/lib/shared/*.cpp',
  ], (['wpilibc/shared/src/%s/**/*' % d for d in _excluded_shared_directories] +
-     ['wpilibc/*/src/%s.cpp' % d for d in _excluded_devices])),
+     ['wpilibc/*/src/%s.cpp' % d for d in _excluded_devices] +
+     ['hal/lib/athena/cpp/Semaphore.cpp'])),
  copts = [
    '-Wno-unused-parameter',
    '-Wno-switch-enum',
@@ -71,8 +73,8 @@ cc_library(
    '-Wno-error',
  ],
  deps = [
-   '//third_party/ntcore_2017:ntcore',
    '//external:ni-libraries',
+   '//third_party/ntcore_2017:ntcore',
  ],
 
  hdrs = _h_hdrs + _hpp_hdrs,

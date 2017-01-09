@@ -10,7 +10,9 @@
 #include <memory>
 #include <string>
 
+#if FULL_WPILIB
 #include "LiveWindow/LiveWindowSendable.h"
+#endif
 #include "SensorBase.h"
 
 namespace frc {
@@ -19,7 +21,12 @@ namespace frc {
  * Class for getting voltage, current, temperature, power and energy from the
  * CAN PDP.
  */
-class PowerDistributionPanel : public SensorBase, public LiveWindowSendable {
+class PowerDistributionPanel : public SensorBase
+#if FULL_WPILIB
+                               ,
+                               public LiveWindowSendable
+#endif
+                               {
  public:
   PowerDistributionPanel();
   explicit PowerDistributionPanel(int module);
@@ -33,15 +40,19 @@ class PowerDistributionPanel : public SensorBase, public LiveWindowSendable {
   void ResetTotalEnergy();
   void ClearStickyFaults();
 
+#if FULL_WPILIB
   void UpdateTable() override;
   void StartLiveWindowMode() override;
   void StopLiveWindowMode() override;
   std::string GetSmartDashboardType() const override;
   void InitTable(std::shared_ptr<ITable> subTable) override;
   std::shared_ptr<ITable> GetTable() const override;
+#endif
 
  private:
+#if FULL_WPILIB
   std::shared_ptr<ITable> m_table;
+#endif
   int m_module;
 };
 

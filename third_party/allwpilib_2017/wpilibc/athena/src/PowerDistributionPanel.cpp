@@ -12,7 +12,9 @@
 #include "HAL/HAL.h"
 #include "HAL/PDP.h"
 #include "HAL/Ports.h"
+#if FULL_WPILIB
 #include "LiveWindow/LiveWindow.h"
+#endif
 #include "WPIErrors.h"
 
 using namespace frc;
@@ -177,6 +179,8 @@ void PowerDistributionPanel::ClearStickyFaults() {
   }
 }
 
+#if FULL_WPILIB
+
 void PowerDistributionPanel::UpdateTable() {
   if (m_table != nullptr) {
     m_table->PutNumber("Chan0", GetCurrent(0));
@@ -216,3 +220,4 @@ void PowerDistributionPanel::InitTable(std::shared_ptr<ITable> subTable) {
 std::shared_ptr<ITable> PowerDistributionPanel::GetTable() const {
   return m_table;
 }
+#endif

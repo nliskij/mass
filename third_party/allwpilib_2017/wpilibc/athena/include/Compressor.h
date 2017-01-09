@@ -11,18 +11,24 @@
 #include <string>
 
 #include "HAL/Types.h"
-#include "LiveWindow/LiveWindowSendable.h"
 #include "SensorBase.h"
+#if FULL_WPILIB
+#include "LiveWindow/LiveWindowSendable.h"
 #include "tables/ITableListener.h"
+#endif
 
 namespace frc {
 
 /**
  * PCM compressor
  */
-class Compressor : public SensorBase,
+class Compressor : public SensorBase
+#if FULL_WPILIB
+                   ,
                    public LiveWindowSendable,
-                   public ITableListener {
+                   public ITableListener
+#endif
+                   {
  public:
   // Default PCM ID is 0
   explicit Compressor(int pcmID = GetDefaultSolenoidModule());
@@ -47,6 +53,7 @@ class Compressor : public SensorBase,
   bool GetCompressorNotConnectedFault() const;
   void ClearAllPCMStickyFaults();
 
+#if FULL_WPILIB
   void UpdateTable() override;
   void StartLiveWindowMode() override;
   void StopLiveWindowMode() override;
@@ -55,6 +62,7 @@ class Compressor : public SensorBase,
   std::shared_ptr<ITable> GetTable() const override;
   void ValueChanged(ITable* source, llvm::StringRef key,
                     std::shared_ptr<nt::Value> value, bool isNew) override;
+#endif
 
  protected:
   HAL_CompressorHandle m_compressorHandle;
@@ -63,7 +71,9 @@ class Compressor : public SensorBase,
   void SetCompressor(bool on);
   int m_module;
 
+#if FULL_WPILIB
   std::shared_ptr<ITable> m_table;
+#endif
 };
 
 }  // namespace frc

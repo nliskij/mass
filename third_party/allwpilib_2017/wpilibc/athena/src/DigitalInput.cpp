@@ -13,7 +13,9 @@
 #include "HAL/DIO.h"
 #include "HAL/HAL.h"
 #include "HAL/Ports.h"
+#if FULL_WPILIB
 #include "LiveWindow/LiveWindow.h"
+#endif
 #include "WPIErrors.h"
 
 using namespace frc;
@@ -46,7 +48,9 @@ DigitalInput::DigitalInput(int channel) {
     return;
   }
 
+#if FULL_WPILIB
   LiveWindow::GetInstance()->AddSensor("DigitalInput", channel, this);
+#endif
   HAL_Report(HALUsageReporting::kResourceType_DigitalInput, channel);
 }
 
@@ -100,6 +104,7 @@ AnalogTriggerType DigitalInput::GetAnalogTriggerTypeForRouting() const {
   return (AnalogTriggerType)0;
 }
 
+#if FULL_WPILIB
 void DigitalInput::UpdateTable() {
   if (m_table != nullptr) {
     m_table->PutBoolean("Value", Get());
@@ -120,3 +125,4 @@ void DigitalInput::InitTable(std::shared_ptr<ITable> subTable) {
 }
 
 std::shared_ptr<ITable> DigitalInput::GetTable() const { return m_table; }
+#endif

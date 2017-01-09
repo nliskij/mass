@@ -9,8 +9,10 @@
 
 #include "DriverStation.h"
 #include "HAL/HAL.h"
+#if FULL_WPILIB
 #include "LiveWindow/LiveWindow.h"
 #include "networktables/NetworkTable.h"
+#endif
 
 using namespace frc;
 
@@ -24,18 +26,22 @@ void IterativeRobot::StartCompetition() {
   HAL_Report(HALUsageReporting::kResourceType_Framework,
              HALUsageReporting::kFramework_Iterative);
 
+#if FULL_WPILIB
   LiveWindow* lw = LiveWindow::GetInstance();
   // first and one-time initialization
   NetworkTable::GetTable("LiveWindow")
       ->GetSubTable("~STATUS~")
       ->PutBoolean("LW Enabled", false);
+#endif
   RobotInit();
 
   // Tell the DS that the robot is ready to be enabled
   HAL_ObserveUserProgramStarting();
 
+#if FULL_WPILIB
   // loop forever, calling the appropriate mode-dependent function
   lw->SetEnabled(false);
+#endif
   while (true) {
     // wait for driver station data so the loop doesn't hog the CPU
     m_ds.WaitForData();
@@ -44,7 +50,9 @@ void IterativeRobot::StartCompetition() {
       // call DisabledInit() if we are now just entering disabled mode from
       // either a different mode or from power-on
       if (!m_disabledInitialized) {
+#if FULL_WPILIB
         lw->SetEnabled(false);
+#endif
         DisabledInit();
         m_disabledInitialized = true;
         // reset the initialization flags for the other modes
@@ -58,7 +66,9 @@ void IterativeRobot::StartCompetition() {
       // call AutonomousInit() if we are now just entering autonomous mode from
       // either a different mode or from power-on
       if (!m_autonomousInitialized) {
+#if FULL_WPILIB
         lw->SetEnabled(false);
+#endif
         AutonomousInit();
         m_autonomousInitialized = true;
         // reset the initialization flags for the other modes
@@ -72,7 +82,9 @@ void IterativeRobot::StartCompetition() {
       // call TestInit() if we are now just entering test mode from
       // either a different mode or from power-on
       if (!m_testInitialized) {
+#if FULL_WPILIB
         lw->SetEnabled(true);
+#endif
         TestInit();
         m_testInitialized = true;
         // reset the initialization flags for the other modes
@@ -86,14 +98,18 @@ void IterativeRobot::StartCompetition() {
       // call TeleopInit() if we are now just entering teleop mode from
       // either a different mode or from power-on
       if (!m_teleopInitialized) {
+#if FULL_WPILIB
         lw->SetEnabled(false);
+#endif
         TeleopInit();
         m_teleopInitialized = true;
         // reset the initialization flags for the other modes
         m_disabledInitialized = false;
         m_autonomousInitialized = false;
         m_testInitialized = false;
+#if FULL_WPILIB
         Scheduler::GetInstance()->SetEnabled(true);
+#endif
       }
       HAL_ObserveUserProgramTeleop();
       TeleopPeriodic();

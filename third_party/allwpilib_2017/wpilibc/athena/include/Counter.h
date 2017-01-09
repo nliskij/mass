@@ -14,7 +14,10 @@
 #include "CounterBase.h"
 #include "HAL/Counter.h"
 #include "HAL/Types.h"
+#if FULL_WPILIB
 #include "LiveWindow/LiveWindowSendable.h"
+#endif
+#include "support/deprecated.h"
 #include "SensorBase.h"
 
 namespace frc {
@@ -31,8 +34,12 @@ class DigitalGlitchFilter;
  * to be zeroed before use.
  */
 class Counter : public SensorBase,
-                public CounterBase,
-                public LiveWindowSendable {
+                public CounterBase
+#if FULL_WPILIB
+                ,
+                public LiveWindowSendable
+#endif
+                {
  public:
   enum Mode {
     kTwoPulse = 0,
@@ -94,12 +101,14 @@ class Counter : public SensorBase,
   int GetSamplesToAverage() const;
   int GetFPGAIndex() const { return m_index; }
 
+#if FULL_WPILIB
   void UpdateTable() override;
   void StartLiveWindowMode() override;
   void StopLiveWindowMode() override;
   std::string GetSmartDashboardType() const override;
   void InitTable(std::shared_ptr<ITable> subTable) override;
   std::shared_ptr<ITable> GetTable() const override;
+#endif
 
  protected:
   // Makes the counter count up.
@@ -112,7 +121,9 @@ class Counter : public SensorBase,
  private:
   int m_index = 0;  ///< The index of this counter.
 
+#if FULL_WPILIB
   std::shared_ptr<ITable> m_table;
+#endif
   friend class DigitalGlitchFilter;
 };
 

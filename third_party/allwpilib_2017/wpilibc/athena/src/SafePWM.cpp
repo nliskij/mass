@@ -16,9 +16,13 @@ using namespace frc;
  *                port
  */
 SafePWM::SafePWM(int channel) : PWM(channel) {
+#if FULL_WPILIB
   m_safetyHelper = std::make_unique<MotorSafetyHelper>(this);
   m_safetyHelper->SetSafetyEnabled(false);
+#endif
 }
+
+#if FULL_WPILIB
 
 /**
  * Set the expiration time for the PWM object.
@@ -78,6 +82,8 @@ void SafePWM::GetDescription(std::ostringstream& desc) const {
   desc << "PWM " << GetChannel();
 }
 
+#endif
+
 /**
  * Feed the MotorSafety timer when setting the speed.
  *
@@ -88,5 +94,7 @@ void SafePWM::GetDescription(std::ostringstream& desc) const {
  */
 void SafePWM::SetSpeed(double speed) {
   PWM::SetSpeed(speed);
+#if FULL_WPILIB
   m_safetyHelper->Feed();
+#endif
 }

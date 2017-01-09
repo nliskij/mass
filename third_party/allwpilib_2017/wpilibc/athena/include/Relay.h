@@ -11,15 +11,19 @@
 #include <string>
 
 #include "HAL/Types.h"
-#include "LiveWindow/LiveWindowSendable.h"
 #include "MotorSafety.h"
 #include "SensorBase.h"
+#if FULL_WPILIB
+#include "LiveWindow/LiveWindowSendable.h"
 #include "tables/ITable.h"
 #include "tables/ITableListener.h"
+#endif
 
 namespace frc {
 
+#if FULL_WPILIB
 class MotorSafetyHelper;
+#endif
 
 /**
  * Class for Spike style relay outputs.
@@ -32,10 +36,14 @@ class MotorSafetyHelper;
  * independently for something that does not care about voltage polarity (like
  * a solenoid).
  */
-class Relay : public MotorSafety,
-              public SensorBase,
+class Relay : public SensorBase
+#if FULL_WPILIB
+              ,
+              public MotorSafety,
               public ITableListener,
-              public LiveWindowSendable {
+              public LiveWindowSendable
+#endif
+              {
  public:
   enum Value { kOff, kOn, kForward, kReverse };
   enum Direction { kBothDirections, kForwardOnly, kReverseOnly };
@@ -47,6 +55,7 @@ class Relay : public MotorSafety,
   Value Get() const;
   int GetChannel() const;
 
+#if FULL_WPILIB
   void SetExpiration(double timeout) override;
   double GetExpiration() const override;
   bool IsAlive() const override;
@@ -65,6 +74,7 @@ class Relay : public MotorSafety,
   std::shared_ptr<ITable> GetTable() const override;
 
   std::shared_ptr<ITable> m_table;
+#endif
 
  private:
   int m_channel;
@@ -73,7 +83,9 @@ class Relay : public MotorSafety,
   HAL_RelayHandle m_forwardHandle = HAL_kInvalidHandle;
   HAL_RelayHandle m_reverseHandle = HAL_kInvalidHandle;
 
+#if FULL_WPILIB
   std::unique_ptr<MotorSafetyHelper> m_safetyHelper;
+#endif
 };
 
 }  // namespace frc

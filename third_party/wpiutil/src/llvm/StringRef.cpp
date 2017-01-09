@@ -120,6 +120,17 @@ std::string StringRef::upper() const {
   return Result;
 }
 
+const char *StringRef::c_str(llvm::SmallVectorImpl<char>& buf) const {
+  if (is_null_terminated()) {
+    return data();
+  } else {
+    buf.clear();
+    buf.append(begin(), end());
+    buf.push_back(0);
+    return buf.begin();
+  }
+}
+
 //===----------------------------------------------------------------------===//
 // String Searching
 //===----------------------------------------------------------------------===//

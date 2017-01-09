@@ -8,7 +8,9 @@
 #include "Talon.h"
 
 #include "HAL/HAL.h"
+#if FULL_WPILIB
 #include "LiveWindow/LiveWindow.h"
+#endif
 
 using namespace frc;
 
@@ -38,5 +40,7 @@ Talon::Talon(int channel) : PWMSpeedController(channel) {
   SetZeroLatch();
 
   HAL_Report(HALUsageReporting::kResourceType_Talon, GetChannel());
+#if FULL_WPILIB
   LiveWindow::GetInstance()->AddActuator("Talon", GetChannel(), this);
+#endif
 }

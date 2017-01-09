@@ -7,8 +7,8 @@ new_local_repository(
 new_http_archive(
     name = 'allwpilib_ni_libraries_repo',
     build_file = 'external_builds/ni-libraries.BUILD',
-    sha256 = 'c639f39bdf97f12b2d13b6194cf3efa4dde8ef0e4c127672d8c2634963dcf860', 
-    url = 'https://valkyrierobotics.com/builddeps/all_ni-libraries_083362b.tar.gz',
+    sha256 = '853448bd5e5a3e222f779d4b41984eeb334a259a47c70013b39545a01417c244',
+    url = 'https://valkyrierobotics.com/builddeps/all_ni-libraries_bc7ab17.tar.gz',
     strip_prefix = 'ni-libraries',
 )
 

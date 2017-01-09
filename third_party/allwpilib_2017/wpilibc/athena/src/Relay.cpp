@@ -12,7 +12,9 @@
 
 #include "HAL/HAL.h"
 #include "HAL/Ports.h"
+#if FULL_WPILIB
 #include "LiveWindow/LiveWindow.h"
+#endif
 #include "MotorSafetyHelper.h"
 #include "WPIErrors.h"
 
@@ -84,10 +86,12 @@ Relay::Relay(int channel, Relay::Direction direction)
     }
   }
 
+#if FULL_WPILIB
   m_safetyHelper = std::make_unique<MotorSafetyHelper>(this);
   m_safetyHelper->SetSafetyEnabled(false);
 
   LiveWindow::GetInstance()->AddActuator("Relay", 1, m_channel, this);
+#endif
 }
 
 /**
@@ -103,7 +107,9 @@ Relay::~Relay() {
   if (m_forwardHandle != HAL_kInvalidHandle) HAL_FreeRelayPort(m_forwardHandle);
   if (m_reverseHandle != HAL_kInvalidHandle) HAL_FreeRelayPort(m_reverseHandle);
 
+#if FULL_WPILIB
   if (m_table != nullptr) m_table->RemoveTableListener(this);
+#endif
 }
 
 /**
@@ -212,6 +218,8 @@ Relay::Value Relay::Get() const {
 
 int Relay::GetChannel() const { return m_channel; }
 
+#if FULL_WPILIB
+
 /**
  * Set the expiration time for the Relay object
  * @param timeout The timeout (in seconds) for this relay object
@@ -313,3 +321,5 @@ void Relay::InitTable(std::shared_ptr<ITable> subTable) {
 }
 
 std::shared_ptr<ITable> Relay::GetTable() const { return m_table; }
+
+#endif

@@ -12,7 +12,9 @@
 
 #include "HAL/HAL.h"
 #include "HAL/Ports.h"
+#if FULL_WPILIB
 #include "LiveWindow/LiveWindow.h"
+#endif
 #include "WPIErrors.h"
 
 using namespace frc;
@@ -55,8 +57,10 @@ Solenoid::Solenoid(int moduleNumber, int channel)
     return;
   }
 
+#if FULL_WPILIB
   LiveWindow::GetInstance()->AddActuator("Solenoid", m_moduleNumber, m_channel,
                                          this);
+#endif
   HAL_Report(HALUsageReporting::kResourceType_Solenoid, m_channel,
              m_moduleNumber);
 }
@@ -66,7 +70,9 @@ Solenoid::Solenoid(int moduleNumber, int channel)
  */
 Solenoid::~Solenoid() {
   HAL_FreeSolenoidPort(m_solenoidHandle);
+#if FULL_WPILIB
   if (m_table != nullptr) m_table->RemoveTableListener(this);
+#endif
 }
 
 /**
@@ -109,6 +115,7 @@ bool Solenoid::IsBlackListed() const {
   return (value != 0);
 }
 
+#if FULL_WPILIB
 void Solenoid::ValueChanged(ITable* source, llvm::StringRef key,
                             std::shared_ptr<nt::Value> value, bool isNew) {
   if (!value->IsBoolean()) return;
@@ -143,3 +150,4 @@ void Solenoid::InitTable(std::shared_ptr<ITable> subTable) {
 }
 
 std::shared_ptr<ITable> Solenoid::GetTable() const { return m_table; }
+#endif

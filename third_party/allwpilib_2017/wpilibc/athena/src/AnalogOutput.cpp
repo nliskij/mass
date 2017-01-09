@@ -12,7 +12,9 @@
 
 #include "HAL/HAL.h"
 #include "HAL/Ports.h"
+#if FULL_WPILIB
 #include "LiveWindow/LiveWindow.h"
+#endif
 #include "WPIErrors.h"
 
 using namespace frc;
@@ -48,7 +50,9 @@ AnalogOutput::AnalogOutput(int channel) {
     return;
   }
 
+#if FULL_WPILIB
   LiveWindow::GetInstance()->AddActuator("AnalogOutput", m_channel, this);
+#endif
   HAL_Report(HALUsageReporting::kResourceType_AnalogOutput, m_channel);
 }
 
@@ -90,6 +94,7 @@ double AnalogOutput::GetVoltage() const {
   return voltage;
 }
 
+#if FULL_WPILIB
 void AnalogOutput::UpdateTable() {
   if (m_table != nullptr) {
     m_table->PutNumber("Value", GetVoltage());
@@ -110,3 +115,4 @@ void AnalogOutput::InitTable(std::shared_ptr<ITable> subTable) {
 }
 
 std::shared_ptr<ITable> AnalogOutput::GetTable() const { return m_table; }
+#endif

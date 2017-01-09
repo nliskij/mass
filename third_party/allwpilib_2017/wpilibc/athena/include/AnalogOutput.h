@@ -13,7 +13,9 @@
 #include <string>
 
 #include "HAL/AnalogOutput.h"
+#if FULL_WPILIB
 #include "LiveWindow/LiveWindowSendable.h"
+#endif
 #include "SensorBase.h"
 
 namespace frc {
@@ -21,7 +23,12 @@ namespace frc {
 /**
  * MXP analog output class.
  */
-class AnalogOutput : public SensorBase, public LiveWindowSendable {
+class AnalogOutput : public SensorBase
+#if FULL_WPILIB
+                     ,
+                     public LiveWindowSendable
+#endif
+                     {
  public:
   explicit AnalogOutput(int channel);
   virtual ~AnalogOutput();
@@ -30,18 +37,22 @@ class AnalogOutput : public SensorBase, public LiveWindowSendable {
   double GetVoltage() const;
   int GetChannel();
 
+#if FULL_WPILIB
   void UpdateTable() override;
   void StartLiveWindowMode() override;
   void StopLiveWindowMode() override;
   std::string GetSmartDashboardType() const override;
   void InitTable(std::shared_ptr<ITable> subTable) override;
   std::shared_ptr<ITable> GetTable() const override;
+#endif
 
  protected:
   int m_channel;
   HAL_AnalogOutputHandle m_port;
 
+#if FULL_WPILIB
   std::shared_ptr<ITable> m_table;
+#endif
 };
 
 }  // namespace frc

@@ -7,7 +7,9 @@
 
 #include "GyroBase.h"
 
+#if FULL_WPILIB
 #include "LiveWindow/LiveWindow.h"
+#endif
 #include "WPIErrors.h"
 
 using namespace frc;
@@ -29,6 +31,7 @@ double GyroBase::PIDGet() {
   }
 }
 
+#if FULL_WPILIB
 void GyroBase::UpdateTable() {
   if (m_table != nullptr) {
     m_table->PutNumber("Value", GetAngle());
@@ -47,3 +50,4 @@ void GyroBase::InitTable(std::shared_ptr<ITable> subTable) {
 }
 
 std::shared_ptr<ITable> GyroBase::GetTable() const { return m_table; }
+#endif

@@ -13,7 +13,9 @@
 #include "HAL/AnalogAccumulator.h"
 #include "HAL/HAL.h"
 #include "HAL/Ports.h"
+#if FULL_WPILIB
 #include "LiveWindow/LiveWindow.h"
+#endif
 #include "Timer.h"
 #include "WPIErrors.h"
 
@@ -51,7 +53,9 @@ AnalogInput::AnalogInput(int channel) {
     return;
   }
 
+#if FULL_WPILIB
   LiveWindow::GetInstance()->AddSensor("AnalogInput", channel, this);
+#endif
   HAL_Report(HALUsageReporting::kResourceType_AnalogChannel, channel);
 }
 
@@ -416,6 +420,7 @@ double AnalogInput::PIDGet() {
   return GetAverageVoltage();
 }
 
+#if FULL_WPILIB
 void AnalogInput::UpdateTable() {
   if (m_table != nullptr) {
     m_table->PutNumber("Value", GetAverageVoltage());
@@ -436,3 +441,4 @@ void AnalogInput::InitTable(std::shared_ptr<ITable> subTable) {
 }
 
 std::shared_ptr<ITable> AnalogInput::GetTable() const { return m_table; }
+#endif

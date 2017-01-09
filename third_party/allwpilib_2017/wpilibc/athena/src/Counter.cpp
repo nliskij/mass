@@ -617,6 +617,7 @@ void Counter::SetReverseDirection(bool reverseDirection) {
   wpi_setErrorWithContext(status, HAL_GetErrorMessage(status));
 }
 
+#if FULL_WPILIB
 void Counter::UpdateTable() {
   if (m_table != nullptr) {
     m_table->PutNumber("Value", Get());
@@ -635,3 +636,4 @@ void Counter::InitTable(std::shared_ptr<ITable> subTable) {
 }
 
 std::shared_ptr<ITable> Counter::GetTable() const { return m_table; }
+#endif

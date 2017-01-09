@@ -13,7 +13,6 @@
 #include <vector>
 
 #include "ErrorBase.h"
-#include "cscore.h"
 #include "llvm/DenseMap.h"
 #include "llvm/StringMap.h"
 #include "llvm/StringRef.h"

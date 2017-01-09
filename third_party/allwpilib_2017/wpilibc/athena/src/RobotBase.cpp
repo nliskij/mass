@@ -17,7 +17,9 @@
 #include "SmartDashboard/SmartDashboard.h"
 #include "Utility.h"
 #include "WPILibVersion.h"
+#if FULL_WPILIB
 #include "networktables/NetworkTable.h"
+#endif
 
 using namespace frc;
 
@@ -40,8 +42,10 @@ RobotBase::RobotBase() : m_ds(DriverStation::GetInstance()) {
   RobotState::SetImplementation(DriverStation::GetInstance());
   HLUsageReporting::SetImplementation(new HardwareHLReporting());
 
+#if FULL_WPILIB
   NetworkTable::SetNetworkIdentity("Robot");
   NetworkTable::SetPersistentFilename("/home/lvuser/networktables.ini");
+#endif
 
   SmartDashboard::init();
 

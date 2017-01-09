@@ -9,7 +9,9 @@
 
 #include "DigitalInput.h"
 #include "HAL/HAL.h"
+#if FULL_WPILIB
 #include "LiveWindow/LiveWindow.h"
+#endif
 #include "WPIErrors.h"
 
 using namespace frc;
@@ -44,8 +46,10 @@ void Encoder::InitEncoder(bool reverseDirection, EncodingType encodingType) {
 
   HAL_Report(HALUsageReporting::kResourceType_Encoder, GetFPGAIndex(),
              encodingType);
+#if FULL_WPILIB
   LiveWindow::GetInstance()->AddSensor("Encoder", m_aSource->GetChannel(),
                                        this);
+#endif
 }
 
 /**
@@ -493,6 +497,7 @@ int Encoder::GetFPGAIndex() const {
   return val;
 }
 
+#if FULL_WPILIB
 void Encoder::UpdateTable() {
   if (m_table != nullptr) {
     m_table->PutNumber("Speed", GetRate());
@@ -525,3 +530,4 @@ void Encoder::InitTable(std::shared_ptr<ITable> subTable) {
 }
 
 std::shared_ptr<ITable> Encoder::GetTable() const { return m_table; }
+#endif

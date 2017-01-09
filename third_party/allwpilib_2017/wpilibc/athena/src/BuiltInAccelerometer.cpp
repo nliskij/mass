@@ -9,7 +9,9 @@
 
 #include "HAL/Accelerometer.h"
 #include "HAL/HAL.h"
+#if FULL_WPILIB
 #include "LiveWindow/LiveWindow.h"
+#endif
 #include "WPIErrors.h"
 
 using namespace frc;
@@ -24,7 +26,9 @@ BuiltInAccelerometer::BuiltInAccelerometer(Range range) {
 
   HAL_Report(HALUsageReporting::kResourceType_Accelerometer, 0, 0,
              "Built-in accelerometer");
+#if FULL_WPILIB
   LiveWindow::GetInstance()->AddSensor((std::string) "BuiltInAccel", 0, this);
+#endif
 }
 
 void BuiltInAccelerometer::SetRange(Range range) {
@@ -53,6 +57,7 @@ double BuiltInAccelerometer::GetY() { return HAL_GetAccelerometerY(); }
  */
 double BuiltInAccelerometer::GetZ() { return HAL_GetAccelerometerZ(); }
 
+#if FULL_WPILIB
 std::string BuiltInAccelerometer::GetSmartDashboardType() const {
   return "3AxisAccelerometer";
 }
@@ -73,3 +78,4 @@ void BuiltInAccelerometer::UpdateTable() {
 std::shared_ptr<ITable> BuiltInAccelerometer::GetTable() const {
   return m_table;
 }
+#endif

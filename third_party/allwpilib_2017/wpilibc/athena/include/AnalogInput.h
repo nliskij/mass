@@ -11,7 +11,9 @@
 #include <string>
 
 #include "HAL/Types.h"
+#if FULL_WPILIB
 #include "LiveWindow/LiveWindowSendable.h"
+#endif
 #include "PIDSource.h"
 #include "SensorBase.h"
 
@@ -30,8 +32,12 @@ namespace frc {
  * stable values.
  */
 class AnalogInput : public SensorBase,
-                    public PIDSource,
-                    public LiveWindowSendable {
+                    public PIDSource
+#if FULL_WPILIB
+                    ,
+                    public LiveWindowSendable
+#endif
+                    {
   friend class AnalogTrigger;
   friend class AnalogGyro;
 
@@ -74,12 +80,14 @@ class AnalogInput : public SensorBase,
 
   double PIDGet() override;
 
+#if FULL_WPILIB
   void UpdateTable() override;
   void StartLiveWindowMode() override;
   void StopLiveWindowMode() override;
   std::string GetSmartDashboardType() const override;
   void InitTable(std::shared_ptr<ITable> subTable) override;
   std::shared_ptr<ITable> GetTable() const override;
+#endif
 
  private:
   int m_channel;
@@ -87,7 +95,10 @@ class AnalogInput : public SensorBase,
   HAL_AnalogInputHandle m_port;
   int64_t m_accumulatorOffset;
 
+#if FULL_WPILIB
   std::shared_ptr<ITable> m_table;
+#endif
+
 };
 
 }  // namespace frc

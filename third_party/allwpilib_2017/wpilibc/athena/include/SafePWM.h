@@ -28,6 +28,7 @@ class SafePWM : public PWM, public MotorSafety {
   explicit SafePWM(int channel);
   virtual ~SafePWM() = default;
 
+#if FULL_WPILIB
   void SetExpiration(double timeout);
   double GetExpiration() const;
   bool IsAlive() const;
@@ -35,11 +36,14 @@ class SafePWM : public PWM, public MotorSafety {
   bool IsSafetyEnabled() const;
   void SetSafetyEnabled(bool enabled);
   void GetDescription(std::ostringstream& desc) const;
+#endif
 
   virtual void SetSpeed(double speed);
 
  private:
+#if FULL_WPILIB
   std::unique_ptr<MotorSafetyHelper> m_safetyHelper;
+#endif
 };
 
 }  // namespace frc

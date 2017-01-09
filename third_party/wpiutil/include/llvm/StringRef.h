@@ -111,11 +111,23 @@ namespace llvm {
     /// terminated).
     const char *data() const { return Data; }
 
+    /// @TODO(m3rcuriel) sync from upstream
+    /// Get a null terminated pointer to the start of the string
+    /// If string is not null terminated, use buffer to store new string
+    const char *c_str(llvm::SmallVectorImpl<char>& buf) const;
+
     /// empty - Check if the string is empty.
-    bool empty() const { return Length == 0; }
+    bool empty() const { return size() == 0; }
 
     /// size - Get the string size.
-    size_t size() const { return Length; }
+    size_t size() const {
+      return Length & ~((size_t)1 << (sizeof(size_t) * 8 - 1));
+    }
+
+    bool is_null_terminated() const {
+      return (Length & ((size_t)1 << (sizeof(size_t) * 8 - 1))) ==
+        ((size_t)1 << (sizeof(size_t) * 8 - 1));
+    }
 
     /// front - Get the first character in the string.
     char front() const {

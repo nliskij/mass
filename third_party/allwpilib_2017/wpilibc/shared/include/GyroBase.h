@@ -10,7 +10,9 @@
 #include <memory>
 #include <string>
 
+#if FULL_WPILIB
 #include "LiveWindow/LiveWindowSendable.h"
+#endif
 #include "PIDSource.h"
 #include "SensorBase.h"
 #include "interfaces/Gyro.h"
@@ -23,14 +25,19 @@ namespace frc {
  */
 class GyroBase : public Gyro,
                  public SensorBase,
-                 public PIDSource,
-                 public LiveWindowSendable {
+                 public PIDSource
+#if FULL_WPILIB
+                 ,
+                 public LiveWindowSendable
+#endif
+                 {
  public:
   virtual ~GyroBase() = default;
 
   // PIDSource interface
   double PIDGet() override;
 
+#if FULL_WPILIB
   void UpdateTable() override;
   void StartLiveWindowMode() override;
   void StopLiveWindowMode() override;
@@ -40,6 +47,7 @@ class GyroBase : public Gyro,
 
  private:
   std::shared_ptr<ITable> m_table;
+#endif
 };
 
 }  // namespace frc

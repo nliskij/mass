@@ -639,7 +639,9 @@ void DriverStation::Run() {
     m_waitForDataCond.notify_all();
 
     if (++period >= 4) {
+#if FULL_WPILIB
       MotorSafetyHelper::CheckMotors();
+#endif
       period = 0;
     }
     if (m_userInDisabled) HAL_ObserveUserProgramDisabled();
