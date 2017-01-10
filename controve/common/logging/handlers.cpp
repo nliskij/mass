@@ -39,7 +39,14 @@ class RootHandler : public AbstractHandler {
       }
     }
 
-    bool onlyHandler = false;
+    bool onlyHandler = true;
+};
+
+class StdoutHandler : public AbstractHandler {
+  private:
+    void handleMessage(const LogMessage &message) override {
+      internal::printMessage(stdout, message);
+    }
 };
 
 RootHandler *rootHandler = nullptr;
