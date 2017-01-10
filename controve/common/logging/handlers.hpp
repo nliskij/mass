@@ -100,6 +100,9 @@ void timestmp(char*,
               const ::std::chrono::time_point<::std::chrono::system_clock>&);
 
 }  // namespace internal
+
+void registerStdoutHandler();
+
 }  // namespace logging
 }  // namespace controve
 

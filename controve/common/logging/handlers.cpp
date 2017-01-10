@@ -164,6 +164,10 @@ void addHandler(Handler *handler) {
   rootHandler->haveOtherHandler();
 }
 
+void registerStdoutHandler() {
+  addHandler(new StdoutHandler());
+}
+
 void init() {
   auto once_init = PTHREAD_ONCE_INIT;
   pthread_once(&once_init, &performInit);
